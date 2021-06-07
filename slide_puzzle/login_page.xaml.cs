@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace slide_puzzle
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for login_page.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class login_page : Window
     {
-        public MainWindow()
+        public login_page()
         {
             InitializeComponent();
         }
