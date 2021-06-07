@@ -1,0 +1,29 @@
+﻿<Window x:Class="slide_puzzle.in_game"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:slide_puzzle"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="800">
+    <Grid>
+        <Label Content="SOLVE IT" HorizontalAlignment="Center"  FontWeight="Black" Margin="307,31,293,385" VerticalAlignment="Center" Width="192" FontSize="36" Height="53" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label Content="SLIDE IT" HorizontalAlignment="Center" Margin="374,84,366,359" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="663,231,0,0" VerticalAlignment="Top" Width="98" Height="26"/>
+        <Label Content="Profile" HorizontalAlignment="Center" Margin="689,130,59,0" VerticalAlignment="Top"/>
+        <Label Content="Difficulty" HorizontalAlignment="Center" Margin="683,161,52,0" VerticalAlignment="Top"/>
+        <Label Content="Time" HorizontalAlignment="Center" Margin="693,192,63,0" VerticalAlignment="Top"/>
+        <Button Content="Sound" HorizontalAlignment="Left" Margin="84,402,0,0" VerticalAlignment="Top" Width="44" Height="44"/>
+        <Button Content="Info" HorizontalAlignment="Left" Margin="28,402,0,0" VerticalAlignment="Top" Width="44" Height="44"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="260,130,0,0" VerticalAlignment="Top" Width="100" Source="img/1.png"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="360,130,0,0" VerticalAlignment="Top" Width="100" Source="img/2.png"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="460,130,0,0" VerticalAlignment="Top" Width="100" Source="img/3.png"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="260,230,0,0" VerticalAlignment="Top" Width="100" Source="img/4.png"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="360,235,0,0" VerticalAlignment="Top" Width="100" Source="img/5.png"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="460,230,0,0" VerticalAlignment="Top" Width="100" Source="img/6.png"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="260,330,0,0" VerticalAlignment="Top" Width="100" Source="img/7.png"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="360,330,0,0" VerticalAlignment="Top" Width="100" Source="img/8.png"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="460,330,0,0" VerticalAlignment="Top" Width="100" Source="img/9.png"/>
+
+    </Grid>
+</Window>
