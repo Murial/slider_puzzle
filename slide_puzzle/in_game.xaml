@@ -5,25 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:slide_puzzle"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800">
-    <Grid>
-        <Label Content="SOLVE IT" HorizontalAlignment="Center"  FontWeight="Black" Margin="307,31,293,385" VerticalAlignment="Center" Width="192" FontSize="36" Height="53" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label Content="SLIDE IT" HorizontalAlignment="Center" Margin="374,84,366,359" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="663,231,0,0" VerticalAlignment="Top" Width="98" Height="26"/>
-        <Label Content="Profile" HorizontalAlignment="Center" Margin="689,130,59,0" VerticalAlignment="Top"/>
-        <Label Content="Difficulty" HorizontalAlignment="Center" Margin="683,161,52,0" VerticalAlignment="Top"/>
-        <Label Content="Time" HorizontalAlignment="Center" Margin="693,192,63,0" VerticalAlignment="Top"/>
-        <Button Content="Sound" HorizontalAlignment="Left" Margin="84,402,0,0" VerticalAlignment="Top" Width="44" Height="44"/>
-        <Button Content="Info" HorizontalAlignment="Left" Margin="28,402,0,0" VerticalAlignment="Top" Width="44" Height="44"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="260,130,0,0" VerticalAlignment="Top" Width="100" Source="img/1.png"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="360,130,0,0" VerticalAlignment="Top" Width="100" Source="img/2.png"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="460,130,0,0" VerticalAlignment="Top" Width="100" Source="img/3.png"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="260,230,0,0" VerticalAlignment="Top" Width="100" Source="img/4.png"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="360,235,0,0" VerticalAlignment="Top" Width="100" Source="img/5.png"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="460,230,0,0" VerticalAlignment="Top" Width="100" Source="img/6.png"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="260,330,0,0" VerticalAlignment="Top" Width="100" Source="img/7.png"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="360,330,0,0" VerticalAlignment="Top" Width="100" Source="img/8.png"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="460,330,0,0" VerticalAlignment="Top" Width="100" Source="img/9.png"/>
+        Title="Slide Puzzle" Height="550" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="0*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+
+        <!--Judul atas-->
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label  Content="SOLVE IT" HorizontalAlignment="Center"  FontWeight="Black" VerticalAlignment="Center" Width="192" FontSize="36" Height="52" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Content="SLIDE IT" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="30" Width="100"/>
+        </StackPanel>
+
+
+        <!--Grid bagian kanan-->
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
+
+            <!--level-->
+            <StackPanel Grid.Row="0">
+                <Label Content="Level 1" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20" VerticalAlignment="Top" Width="Auto" Height="Auto" Margin="5,5,5,5"/>
+                <TextBlock x:Name="timer" HorizontalAlignment="Center" FontSize="20" VerticalAlignment="Center" Width="Auto" Height="Auto" Margin="5,5,5,5"/>
+                <Button Content="Pick Image" FontSize="20" Width="100" Height="Auto" Margin="5,5,5,5" Click="btnPickImage_Click" />
+                <Button Content="Shuffle" FontSize="20" Width="100" Height="Auto" Margin="5,5,5,5" Click="shuffle" />
+            </StackPanel>
+
+            <!--preview-->
+            <Image Grid.Row="1" x:Name="preview"/>
+        </Grid>
+
+        <!--Grid puzzle tiles-->
+        <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+          x:Name="gridPuzzle" Height="400" Width="400">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+
+
 
     </Grid>
 </Window>
