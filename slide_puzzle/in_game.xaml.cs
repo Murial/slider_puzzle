@@ -14,12 +14,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
+
 namespace slide_puzzle
 {
     /// <summary>
     /// Interaction logic for in_game.xaml
     /// </summary>
-    public partial class in_game : Window
+    public partial class In_game : Window
     {
         //timer data
         DispatcherTimer dt = new DispatcherTimer();
@@ -30,11 +31,12 @@ namespace slide_puzzle
         //image data
         List<Rectangle> unallocatedParts = new List<Rectangle>();
         List<Rectangle> allocatedParts = new List<Rectangle>();
-        Image img;
-        BitmapImage image;
-        
+        Image img = new Image();
+        BitmapImage image = new BitmapImage(new Uri("file:///D:/KARAJO KULIAH/SEMESTER 4/Bengkel Aplikasi Desktop/PROJEK/slide_puzzle/slide_puzzle/img/ploy.jpg"));
 
-        public in_game()
+
+
+        public In_game()
         {
             InitializeComponent();
 
@@ -50,6 +52,15 @@ namespace slide_puzzle
                 currentTime = String.Format("{0:00}:{1:00}:{2:00}",
                 ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
                 timer.Text = currentTime;
+                start.IsEnabled = false;
+            }
+        }
+
+        void dt_Restart()
+        {
+            if (sw.IsRunning)
+            {
+                sw = Stopwatch.StartNew();
             }
         }
 
@@ -71,6 +82,7 @@ namespace slide_puzzle
             tiles.VerticalAlignment = VerticalAlignment.Stretch;
             tiles.MouseDown += new MouseButtonEventHandler(MovingControl);
             unallocatedParts.Add(tiles);
+            
         }
 
         private void btnPickImage_Click(object sender, RoutedEventArgs e)
@@ -96,6 +108,7 @@ namespace slide_puzzle
 
         private void CreatePuzzleForImage()
         {
+
             preview.Source = image;
 
             unallocatedParts.Clear();
@@ -169,7 +182,7 @@ namespace slide_puzzle
             Rectangle rectCurrent = sender as Rectangle;
             Rectangle rectBlank = allocatedParts[allocatedParts.Count - 1];
 
-            //get current grid row/col for clicked Rectangle and Blank one
+            //mengambil informasi baris dan kolom tiles blank dan tiles yang akan berpindah
             int currentTileRow = (int)rectCurrent.GetValue(Grid.RowProperty);
             int currentTileCol = (int)rectCurrent.GetValue(Grid.ColumnProperty);
             int currentBlankRow = (int)rectBlank.GetValue(Grid.RowProperty);
@@ -200,6 +213,7 @@ namespace slide_puzzle
 
                 rectBlank.SetValue(Grid.RowProperty, currentTileRow);
                 rectBlank.SetValue(Grid.ColumnProperty, currentTileCol);
+                
             }
             else
                 return;
@@ -211,10 +225,37 @@ namespace slide_puzzle
             public int Col { get; set; }
         }
 
+        //fungsi shuffle
         private void shuffle(object sender, RoutedEventArgs e)
         {
+
             CreatePuzzleForImage();
-            RandomizeTiles();
+
+            var rnd = new Random();
+            var randomized = allocatedParts.OrderBy(item => rnd.Next());
+
+            foreach (var value in randomized) { allocatedParts.IndexOf(value); }
+
+            dt_Restart();
+        }
+
+        private void start_click(object sender, RoutedEventArgs e)
+        {
+            CreatePuzzleForImage();
+        }
+
+        //kondisi menang 
+        private bool winState()
+        {
+            return true;
+        }
+
+        private void winStateCheck()
+        {
+            if(winState())
+            {
+                winLabel.Content = "YEEE MENANG";
+            }
         }
     }
 }
