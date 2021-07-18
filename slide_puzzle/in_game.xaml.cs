@@ -27,14 +27,24 @@ namespace slide_puzzle
         Stopwatch sw = new Stopwatch();
         string currentTime = string.Empty;
 
+        //default state image position
+        List<Rectangle> defaultUnallocated = new List<Rectangle>();
+        List<Rectangle> defaultAllocated = new List<Rectangle>();
 
         //image data
         List<Rectangle> unallocatedParts = new List<Rectangle>();
         List<Rectangle> allocatedParts = new List<Rectangle>();
         Image img = new Image();
         BitmapImage image = new BitmapImage(new Uri("file:///D:/KARAJO KULIAH/SEMESTER 4/Bengkel Aplikasi Desktop/PROJEK/slide_puzzle/slide_puzzle/img/ploy.jpg"));
+        int imageIndex = 0;
 
+        Rectangle rect = new Rectangle();
 
+        public int ImageIndex
+        {
+            get { return imageIndex; }
+            set { imageIndex = value; }
+        }
 
         public In_game()
         {
@@ -53,6 +63,7 @@ namespace slide_puzzle
                 ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
                 timer.Text = currentTime;
                 start.IsEnabled = false;
+                
             }
         }
 
@@ -61,6 +72,14 @@ namespace slide_puzzle
             if (sw.IsRunning)
             {
                 sw = Stopwatch.StartNew();
+            }
+        }
+
+        void dt_Stop()
+        {
+            if (sw.IsRunning)
+            {
+                sw.Stop();
             }
         }
 
@@ -82,7 +101,7 @@ namespace slide_puzzle
             tiles.VerticalAlignment = VerticalAlignment.Stretch;
             tiles.MouseDown += new MouseButtonEventHandler(MovingControl);
             unallocatedParts.Add(tiles);
-            
+            defaultUnallocated.Add(tiles);
         }
 
         private void btnPickImage_Click(object sender, RoutedEventArgs e)
@@ -101,18 +120,20 @@ namespace slide_puzzle
                 }
                 catch
                 {
-                    MessageBox.Show("Couldnt load the image file " + ofd.FileName);
+                    MessageBox.Show("File tidak bisa dimuat " + ofd.FileName);
                 }
             }
         }
 
         private void CreatePuzzleForImage()
         {
-
             preview.Source = image;
 
             unallocatedParts.Clear();
             allocatedParts.Clear();
+
+            defaultUnallocated.Clear();
+            defaultAllocated.Clear();
 
             //dynamic image tiles will be added soon
 
@@ -127,7 +148,10 @@ namespace slide_puzzle
             //row2
             ImageTiles(0, 0.66666, 0.33333, 0.33333);
             ImageTiles(0.33333, 0.66666, 0.33333, 0.33333);
+
+            DefaultState();
             RandomizeTiles();
+
             CreateBlankRect();
 
             sw.Start();
@@ -144,8 +168,21 @@ namespace slide_puzzle
                     index++;
                 }
             }
+
+            //int defaultIndex = 0;
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    for (int j = 0; j < 3; j++)
+            //    {
+            //        defaultAllocated[defaultIndex].SetValue(Grid.RowProperty, i);
+            //        defaultAllocated[defaultIndex].SetValue(Grid.ColumnProperty, j);
+            //        gridPuzzle.Children.Add(defaultAllocated[defaultIndex]);
+            //        defaultIndex++;
+            //    }
+            //}
         }
 
+        //kondisi random tiles
         private void RandomizeTiles()
         {
             Random rand = new Random();
@@ -159,6 +196,21 @@ namespace slide_puzzle
                 }
                 allocatedParts.Add(unallocatedParts[index]);
                 unallocatedParts.RemoveAt(index);
+                allocated++;
+            }
+        }
+
+        //kondisi urutan normal
+        private void DefaultState()
+        {
+            int allocated = 0;
+            while (allocated != 8)
+            {
+
+                int index = 0;
+
+                defaultAllocated.Add(defaultUnallocated[index]);
+                defaultUnallocated.RemoveAt(index);
                 allocated++;
             }
         }
@@ -213,7 +265,7 @@ namespace slide_puzzle
 
                 rectBlank.SetValue(Grid.RowProperty, currentTileRow);
                 rectBlank.SetValue(Grid.ColumnProperty, currentTileCol);
-                
+                winStateCheck();
             }
             else
                 return;
@@ -247,15 +299,50 @@ namespace slide_puzzle
         //kondisi menang 
         private bool winState()
         {
-            return true;
+            int tmp = 0 ;
+            bool state = false;
+            
+            for (int i = 0; i < allocatedParts.Count; i++)
+            {
+                if (allocatedParts[i] == null)
+                    return state;
+
+                if (tmp == 9)
+                    state = true;
+            }
+
+            return state;
         }
 
+        //cek kondisi menang
         private void winStateCheck()
         {
-            if(winState())
+            if(RectCheck() == true)
             {
-                winLabel.Content = "YEEE MENANG";
+                test.Content = imageIndex;
+                dt_Stop();
+                MessageBox.Show("berhasil");
             }
+        }
+
+
+        private bool RectCheck()
+        {
+            bool[] areEqual = new bool[defaultAllocated.Count];
+
+            for (int i = 0; i < defaultAllocated.Count; i++)
+            {
+                if (defaultAllocated[i] == allocatedParts[i])
+                {
+                    areEqual[i] = true;
+                }
+
+            }
+
+                if (areEqual.Contains(false))
+                    return false;
+                else
+                    return true;
         }
     }
 }

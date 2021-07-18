@@ -28,5 +28,12 @@ namespace slide_puzzle
         {
 
         }
+
+        private void btnstart_Click(object sender, RoutedEventArgs e)
+        {
+            In_game IG = new In_game();
+            IG.Show();
+            this.Hide();
+        }
     }
 }
