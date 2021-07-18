@@ -54,6 +54,7 @@ namespace slide_puzzle
             dt.Interval = new TimeSpan(0, 0, 0, 0, 1);
         }
 
+        //stopwatch ticking if sw running
         void dt_Tick(object sender, EventArgs e)
         {
             if (sw.IsRunning)
@@ -67,6 +68,7 @@ namespace slide_puzzle
             }
         }
 
+        //restart stopwatch
         void dt_Restart()
         {
             if (sw.IsRunning)
@@ -75,6 +77,7 @@ namespace slide_puzzle
             }
         }
 
+        //stop stopwatch
         void dt_Stop()
         {
             if (sw.IsRunning)
@@ -83,12 +86,14 @@ namespace slide_puzzle
             }
         }
 
+        //cut image tiles
         private void ImageTiles(double x, double y, double width, double height)
         {
             ImageBrush ib = new ImageBrush();
             ib.Stretch = Stretch.UniformToFill;
             ib.ImageSource = image;
             ib.Viewport = new Rect(0, 0, 1.0, 1.0);
+            
             //grab image portion
             ib.Viewbox = new Rect(x, y, width, height);
             ib.ViewboxUnits = BrushMappingMode.RelativeToBoundingBox;
@@ -104,6 +109,7 @@ namespace slide_puzzle
             defaultUnallocated.Add(tiles);
         }
 
+        //custom image
         private void btnPickImage_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
@@ -125,6 +131,7 @@ namespace slide_puzzle
             }
         }
 
+        //arrange image tiles and randomize it
         private void CreatePuzzleForImage()
         {
             preview.Source = image;
@@ -182,7 +189,7 @@ namespace slide_puzzle
             //}
         }
 
-        //kondisi random tiles
+        //randomize tiles
         private void RandomizeTiles()
         {
             Random rand = new Random();
@@ -200,7 +207,7 @@ namespace slide_puzzle
             }
         }
 
-        //kondisi urutan normal
+        //default state for comparing later
         private void DefaultState()
         {
             int allocated = 0;
@@ -215,6 +222,7 @@ namespace slide_puzzle
             }
         }
 
+        //adding blank rectangle
         private void CreateBlankRect()
         {
             Rectangle tiles = new Rectangle();
@@ -225,6 +233,7 @@ namespace slide_puzzle
             allocatedParts.Add(tiles);
         }
 
+        //game controls
         private void MovingControl(object sender, MouseButtonEventArgs e)
         {
             //get the source Rectangle, and the blank Rectangle
@@ -271,13 +280,14 @@ namespace slide_puzzle
                 return;
         }
 
+        //possible possitions constructor
         struct PossiblePositions
         {
             public int Row { get; set; }
             public int Col { get; set; }
         }
 
-        //fungsi shuffle
+        //shuffle image tiles
         private void shuffle(object sender, RoutedEventArgs e)
         {
 
@@ -291,12 +301,13 @@ namespace slide_puzzle
             dt_Restart();
         }
 
+        //start button event
         private void start_click(object sender, RoutedEventArgs e)
         {
             CreatePuzzleForImage();
         }
 
-        //kondisi menang 
+        //winning state
         private bool winState()
         {
             int tmp = 0 ;
@@ -314,7 +325,7 @@ namespace slide_puzzle
             return state;
         }
 
-        //cek kondisi menang
+        //winning state checker
         private void winStateCheck()
         {
             if(RectCheck() == true)
@@ -325,7 +336,7 @@ namespace slide_puzzle
             }
         }
 
-
+        //check for default location and actual location
         private bool RectCheck()
         {
             bool[] areEqual = new bool[defaultAllocated.Count];
