@@ -22,6 +22,8 @@ namespace slide_puzzle
     /// </summary>
     public partial class In_game : Window
     {
+        int move = 1;
+
         //timer data
         DispatcherTimer dt = new DispatcherTimer();
         Stopwatch sw = new Stopwatch();
@@ -32,8 +34,8 @@ namespace slide_puzzle
         List<Rectangle> defaultAllocated = new List<Rectangle>();
 
         //image data
-        List<Rectangle> unallocatedParts = new List<Rectangle>();
         List<Rectangle> allocatedParts = new List<Rectangle>();
+        List<Rectangle> unallocatedParts = new List<Rectangle>();
         Image img = new Image();
         BitmapImage image = new BitmapImage(new Uri("file:///D:/KARAJO KULIAH/SEMESTER 4/Bengkel Aplikasi Desktop/PROJEK/slide_puzzle/slide_puzzle/img/ploy.jpg"));
         int imageIndex = 0;
@@ -64,7 +66,7 @@ namespace slide_puzzle
                 ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
                 timer.Text = currentTime;
                 start.IsEnabled = false;
-                
+
             }
         }
 
@@ -93,7 +95,7 @@ namespace slide_puzzle
             ib.Stretch = Stretch.UniformToFill;
             ib.ImageSource = image;
             ib.Viewport = new Rect(0, 0, 1.0, 1.0);
-            
+
             //grab image portion
             ib.Viewbox = new Rect(x, y, width, height);
             ib.ViewboxUnits = BrushMappingMode.RelativeToBoundingBox;
@@ -105,8 +107,9 @@ namespace slide_puzzle
             tiles.HorizontalAlignment = HorizontalAlignment.Stretch;
             tiles.VerticalAlignment = VerticalAlignment.Stretch;
             tiles.MouseDown += new MouseButtonEventHandler(MovingControl);
-            unallocatedParts.Add(tiles);
             defaultUnallocated.Add(tiles);
+            unallocatedParts.Add(tiles);
+            
         }
 
         //custom image
@@ -134,59 +137,66 @@ namespace slide_puzzle
         //arrange image tiles and randomize it
         private void CreatePuzzleForImage()
         {
-            preview.Source = image;
-
-            unallocatedParts.Clear();
-            allocatedParts.Clear();
-
-            defaultUnallocated.Clear();
-            defaultAllocated.Clear();
-
-            //dynamic image tiles will be added soon
-
-            //row0
-            ImageTiles(0, 0, 0.33333, 0.33333);
-            ImageTiles(0.33333, 0, 0.33333, 0.33333);
-            ImageTiles(0.66666, 0, 0.33333, 0.33333);
-            //row1
-            ImageTiles(0, 0.33333, 0.33333, 0.33333);
-            ImageTiles(0.33333, 0.33333, 0.33333, 0.33333);
-            ImageTiles(0.66666, 0.33333, 0.33333, 0.33333);
-            //row2
-            ImageTiles(0, 0.66666, 0.33333, 0.33333);
-            ImageTiles(0.33333, 0.66666, 0.33333, 0.33333);
-
-            DefaultState();
-            RandomizeTiles();
-
-            CreateBlankRect();
-
-            sw.Start();
-            dt.Start();
-
-            int index = 0;
-            for (int i = 0; i < 3; i++)
+            do
             {
-                for (int j = 0; j < 3; j++)
-                {
-                    allocatedParts[index].SetValue(Grid.RowProperty, i);
-                    allocatedParts[index].SetValue(Grid.ColumnProperty, j);
-                    gridPuzzle.Children.Add(allocatedParts[index]);
-                    index++;
-                }
-            }
+                preview.Source = image;
 
-            //int defaultIndex = 0;
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    for (int j = 0; j < 3; j++)
-            //    {
-            //        defaultAllocated[defaultIndex].SetValue(Grid.RowProperty, i);
-            //        defaultAllocated[defaultIndex].SetValue(Grid.ColumnProperty, j);
-            //        gridPuzzle.Children.Add(defaultAllocated[defaultIndex]);
-            //        defaultIndex++;
-            //    }
-            //}
+                unallocatedParts.Clear();
+                allocatedParts.Clear();
+
+                defaultUnallocated.Clear();
+                defaultAllocated.Clear();
+
+                //dynamic image tiles will be added soon
+
+                //row0
+                ImageTiles(0, 0, 0.33333, 0.33333);
+                ImageTiles(0.33333, 0, 0.33333, 0.33333);
+                ImageTiles(0.66666, 0, 0.33333, 0.33333);
+                //row1
+                ImageTiles(0, 0.33333, 0.33333, 0.33333);
+                ImageTiles(0.33333, 0.33333, 0.33333, 0.33333);
+                ImageTiles(0.66666, 0.33333, 0.33333, 0.33333);
+                //row2
+                ImageTiles(0, 0.66666, 0.33333, 0.33333);
+                ImageTiles(0.33333, 0.66666, 0.33333, 0.33333);
+
+                
+                RandomizeTiles();
+                //DefaultTiles();
+
+                CreateBlankRect();
+
+                sw.Start();
+                dt.Start();
+
+                int index = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        allocatedParts[index].SetValue(Grid.RowProperty, i);
+                        allocatedParts[index].SetValue(Grid.ColumnProperty, j);
+                        gridPuzzle.Children.Add(allocatedParts[index]);
+                        index++;
+                    }
+                }
+
+                //int defaultIndex = 0;
+                //for (int i = 0; i < 3; i++)
+                //{
+                //    for (int j = 0; j < 3; j++)
+                //    {
+                //        defaultAllocated[defaultIndex].SetValue(Grid.RowProperty, i);
+                //        defaultAllocated[defaultIndex].SetValue(Grid.ColumnProperty, j);
+                //        defaultstate.Children.Add(defaultAllocated[defaultIndex]);
+                //        defaultIndex++;
+                //    }
+                //}
+            }
+            while (RectCheck());
+
+            
         }
 
         //randomize tiles
@@ -208,17 +218,22 @@ namespace slide_puzzle
         }
 
         //default state for comparing later
-        private void DefaultState()
+        private void DefaultTiles()
         {
+            
             int allocated = 0;
             while (allocated != 8)
             {
-
                 int index = 0;
-
+                if (defaultUnallocated.Count > 1)
+                {
+                    index = defaultUnallocated.Count;
+                }
                 defaultAllocated.Add(defaultUnallocated[index]);
                 defaultUnallocated.RemoveAt(index);
                 allocated++;
+
+
             }
         }
 
@@ -231,6 +246,7 @@ namespace slide_puzzle
             tiles.HorizontalAlignment = HorizontalAlignment.Stretch;
             tiles.VerticalAlignment = VerticalAlignment.Stretch;
             allocatedParts.Add(tiles);
+            defaultAllocated.Add(tiles);
         }
 
         //game controls
@@ -274,10 +290,12 @@ namespace slide_puzzle
 
                 rectBlank.SetValue(Grid.RowProperty, currentTileRow);
                 rectBlank.SetValue(Grid.ColumnProperty, currentTileCol);
-                winStateCheck();
             }
             else
                 return;
+
+            test.Content = move;
+            winStateCheck();
         }
 
         //possible possitions constructor
@@ -290,7 +308,9 @@ namespace slide_puzzle
         //shuffle image tiles
         private void shuffle(object sender, RoutedEventArgs e)
         {
-
+            move = 0;
+            test.Content = move;
+            move++;
             CreatePuzzleForImage();
 
             var rnd = new Random();
@@ -305,35 +325,35 @@ namespace slide_puzzle
         private void start_click(object sender, RoutedEventArgs e)
         {
             CreatePuzzleForImage();
+            
         }
 
         //winning state
         private bool winState()
         {
-            int tmp = 0 ;
             bool state = false;
-            
-            for (int i = 0; i < allocatedParts.Count; i++)
+            int i;
+
+            for (i = 0; i<(allocatedParts.Count()-1); i++)
             {
-                if (allocatedParts[i] == null)
-                    return state;
-
-                if (tmp == 9)
-                    state = true;
+                //if(allocatedParts[i] == defaultUnallocated[i])
+                //{
+                //    state = true;
+                //}
             }
-
             return state;
         }
 
         //winning state checker
         private void winStateCheck()
         {
-            if(RectCheck() == true)
+            if (RectCheck() == true)
             {
                 test.Content = imageIndex;
                 dt_Stop();
                 MessageBox.Show("berhasil");
             }
+            else move++;
         }
 
         //check for default location and actual location
@@ -350,10 +370,10 @@ namespace slide_puzzle
 
             }
 
-                if (areEqual.Contains(false))
-                    return false;
-                else
-                    return true;
+            if (areEqual.Contains(false))
+                return false;
+            else
+                return true;
         }
     }
 }
